@@ -4,10 +4,19 @@ const mongoose = require('mongoose')
 
 const app = express();
 
-app.listen(process.env.PORT, () => {
-    console.log("Listening on port 4000")
-})
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => {
+        app.listen(process.env.PORT, () => {
+            console.log("Listening on port 4000")
+        })
+    })
+    .catch((error) => {
+        console.log(error)
+        console.log('Not connected')
+    })
+    
+const loginSignup = async(req, res) => {
+    res.json({massg : 'Login working'})
+}
 
-app.get('/', (req, res) => {
-    res.json({ mssg : 'Working with env'})
-})
+app.get('/', loginSignup)
